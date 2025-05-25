@@ -758,17 +758,18 @@ h1, h2, h3, h4, h5, h6 {
 /* Photo Carousal */
 
 .carousel {
-  width: 100%;
-  max-width: 600px;        /* Set the fixed width of the frame */
-  aspect-ratio: 3 / 2;          /* Maintains landscape ratio */
-  padding: 10px;           /* Padding around the images inside the frame */
-  box-sizing: border-box;  /* Ensure padding doesn't increase total size */
-  margin: 0 auto;          /* Center the carousel horizontally */
-  background-color: #f0f0f0; /* Optional: background around the image */
-  border-radius: 20px;     /* Optional: rounded corners */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Optional: drop shadow */
-  overflow: hidden;        /* Crop anything outside the frame */
-  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  position: relative; /* already set */
+  left: 50%;          /* Add this */
+  margin-left: calc(-50vw);
+  aspect-ratio: 3 / 2;
+  padding: 5px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .carousel-images {
@@ -820,28 +821,59 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Scroll Down Indicator */
 .scroll-indicator {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
   font-size: 32px;
   color: #666;
-  animation: bounce 1.5s infinite;
+  animation: bounce 0.5s infinite, glow 1s infinite ease-in-out;
   z-index: 100;
   opacity: 0.8;
   transition: opacity 0.3s ease;
+  margin: 0;          /* remove default margins */
+  line-height: 0.5;
 }
 
 @keyframes bounce {
   0%, 100% {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
   50% {
-    transform: translateX(-50%) translateY(8px);
+    transform: translateY(8px);
   }
 }
 
-.scroll-indicator.hide {
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 0px #d6d6d6;
+  }
+  50% {
+    text-shadow: 0 0 0.5px #d6d6d6;
+  }
+}
+
+.scroll-indicator-wrapper.hide {
   opacity: 0;
   pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-indicator-wrapper {
+  position: fixed;
+  bottom: 150px;
+  left: 80%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 100;
+
+  display: flex;
+  flex-direction: column;  /* stack vertically */
+  align-items: center;     /* center horizontally */
+  gap: 0px; 
+}
+
+.scroll-text {
+  font-size: 20px;
+  color: #666;
+  margin: 0;  
+  opacity: 1;
+  font-family: sans-serif;
+  animation: glow 1s infinite ease-in-out;
 }
